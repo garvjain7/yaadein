@@ -1,0 +1,204 @@
+/* ==========================================================
+   Yaadein: quiet, photographic, earthy
+   Palette: chai #c9a26b · haldi #d9b25c · diya #f2e3c3 · ash #1a130d · brick #8a4b32
+   Type: Yatra One (Devanagari signboard feel) for titles, Georgia-family serif for captions, system sans for tiny utility text
+   ========================================================== */
+:root {
+  --fade: 900ms;                       /* keep in sync with transitionMs in scenes.js */
+  --ink: #1a130d;
+  --paper: #f2e3c3;
+  --muted: rgba(242, 227, 195, .72);
+  --gold: #d9b25c;
+  --display: "Yatra One", "Noto Serif Devanagari", "Kohinoor Devanagari", "Nirmala UI", "Mukta", serif;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --pad: clamp(14px, 2.4vw, 32px);
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; }
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--sans);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Background stage ---------- */
+.stage { position: fixed; inset: 0; background: var(--ink); overflow: hidden; }
+.bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-repeat: no-repeat; background-position: 50% 50%;
+  opacity: 0;
+  transition: opacity var(--fade) ease-in-out;
+  will-change: opacity;
+  filter: saturate(.94) contrast(1.06);
+}
+.bg.is-visible { opacity: 1; }
+.stage.no-anim .bg { transition: none; }
+
+/* Muted, earthy grade + soft scrims so text stays readable on bright or dark images */
+.shade {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(20,13,8,.45) 0, rgba(20,13,8,0) 22%),
+    linear-gradient(to top, rgba(20,13,8,.72) 0, rgba(20,13,8,.30) 34%, rgba(20,13,8,0) 58%),
+    rgba(60, 38, 18, .10);
+  mix-blend-mode: normal;
+}
+.grade {  /* warm highlights, cool shadows: ties five different images into one world */
+  position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light;
+  background: linear-gradient(to bottom, rgba(255,165,85,.32), rgba(25,55,115,.40));
+}
+.grain {
+  position: absolute; inset: -50%; pointer-events: none; opacity: .13; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grain 1.2s steps(6) infinite;
+}
+@keyframes grain {
+  0% { transform: translate(0,0); } 20% { transform: translate(-3%,2%); } 40% { transform: translate(2%,-3%); }
+  60% { transform: translate(-2%,-1%); } 80% { transform: translate(3%,3%); } 100% { transform: translate(0,0); }
+}
+
+/* ---------- Floating UI ---------- */
+.ui { position: fixed; inset: 0; pointer-events: none; z-index: 2; }
+.ui > * { pointer-events: auto; }
+.ui > .caption { pointer-events: none; }
+:where(button):focus-visible {
+  outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px;
+}
+
+/* Clock (top right) */
+.clock {
+  position: absolute; top: calc(var(--pad) + env(safe-area-inset-top, 0px)); right: calc(var(--pad) + env(safe-area-inset-right, 0px));
+  font-size: .85rem; letter-spacing: .08em; font-variant-numeric: tabular-nums;
+  color: var(--paper); text-shadow: 0 1px 8px rgba(0,0,0,.7);
+}
+
+/* Title + caption block: one bold typographic moment, placed over the calmest part of each image */
+.text {
+  position: absolute; left: 0; right: 0; padding: 0 clamp(18px, 5vw, 80px);
+  display: flex; flex-direction: column; gap: clamp(8px, 1.4vh, 16px);
+  transition: opacity 250ms ease; pointer-events: none;
+}
+.text[data-pos="top"] { top: calc(clamp(56px, 11vh, 130px) + env(safe-area-inset-top, 0px)); }
+.text[data-pos="mid"] { top: 0; bottom: 0; justify-content: center; }
+.text[data-pos="low"] { bottom: calc(17vh + env(safe-area-inset-bottom, 0px)); }
+.text[data-align="center"] { align-items: center; text-align: center; }
+.text[data-align="left"]   { align-items: flex-start; text-align: left; }
+.text[data-align="right"]  { align-items: flex-end; text-align: right; }
+.text.is-changing { opacity: 0; }
+.title {
+  font-family: var(--display); font-weight: 400; color: #f6ead0;
+  font-size: clamp(2.9rem, 9.5vw, 8.5rem); line-height: 1.22;   /* Devanagari needs room for matras */
+  max-width: 14ch; text-wrap: balance; letter-spacing: 0;
+  text-shadow: 0 2px 4px rgba(20,10,0,.45), 0 6px 40px rgba(20,10,0,.55);
+}
+.caption {
+  max-width: 36rem; font-family: var(--serif); font-style: italic;
+  font-size: clamp(1.02rem, 1rem + .5vw, 1.45rem); line-height: 1.5; text-wrap: balance;
+  text-shadow: 0 1px 3px rgba(0,0,0,.85), 0 2px 18px rgba(0,0,0,.7);
+}
+.title[hidden], .caption[hidden] { display: none; }
+
+/* Timeline (bottom right) */
+.timeline {
+  position: absolute; right: calc(var(--pad) + env(safe-area-inset-right, 0px)); bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: 16px; display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
+}
+.now-btn {
+  margin-top: 6px; padding: 4px 11px; font: inherit; font-size: .68rem; letter-spacing: .04em; color: var(--paper);
+  background: rgba(44,30,18,.6); border: 1px solid rgba(201,162,107,.5); border-radius: 999px; cursor: pointer;
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+}
+.now-btn:hover { background: rgba(70,48,28,.75); }
+.now-btn[hidden] { display: none; }
+.timeline-credits {
+  color: rgba(242,227,195,.56); font-size: .68rem; line-height: 1.6;
+  text-align: right; text-shadow: 0 1px 8px rgba(0,0,0,.9);
+}
+.timeline-credits a { color: rgba(242,227,195,.78); text-underline-offset: 2px; }
+.timeline-credits a:hover { color: var(--paper); }
+.credit-heart { color: #c74452; }
+.timeline ol { list-style: none; padding: 0; display: flex; position: relative; }
+.timeline ol::before {                     /* the thin line through the dots */
+  content: ""; position: absolute; left: 20px; right: 20px; top: 13px; height: 1px;
+  background: rgba(242,227,195,.42);
+}
+.marker {
+  position: relative; display: block; width: 40px; height: 36px; padding: 0;
+  background: none; border: 0; color: var(--muted); cursor: pointer;
+}
+.dot {
+  position: absolute; left: 50%; top: 9px; width: 9px; height: 9px; margin-left: -4.5px;
+  border-radius: 50%; background: rgba(26,19,13,.85); border: 1px solid rgba(242,227,195,.7);
+  transition: transform .3s ease, background .3s ease;
+}
+.marker:hover .dot { transform: scale(1.25); }
+.marker.is-active .dot { background: var(--gold); border-color: var(--gold); transform: scale(1.35); box-shadow: 0 0 0 4px rgba(217,178,92,.18); }
+.tick {
+  position: absolute; left: 50%; top: 24px; transform: translateX(-50%); white-space: nowrap;
+  font-size: .62rem; letter-spacing: .04em; opacity: .55; text-shadow: 0 1px 6px rgba(0,0,0,.9);
+  transition: opacity .3s ease, color .3s ease;
+}
+.marker.is-active .tick, .marker:hover .tick, .marker:focus-visible .tick { opacity: 1; color: var(--paper); }
+
+/* Radio (bottom left) */
+.radio-wrap {
+  position: absolute; left: calc(var(--pad) + env(safe-area-inset-left, 0px)); bottom: calc(var(--pad) + env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; gap: 8px; align-items: flex-start;
+}
+.radio {
+  display: flex; align-items: center; gap: 10px; padding: 8px 10px; width: 188px;
+  background: rgba(44, 30, 18, .62); border: 1px solid rgba(201,162,107,.4); border-radius: 10px;
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 4px 18px rgba(0,0,0,.35);
+}
+.grille {
+  flex: none; width: 30px; height: 30px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(242,227,195,.55) 1px, transparent 1.5px) 0 0 / 5px 5px, #2a1d11;
+  border: 1px solid rgba(201,162,107,.45);
+}
+.dial { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.dial-scale {
+  position: relative; height: 8px;
+  background: repeating-linear-gradient(to right, rgba(242,227,195,.5) 0 1px, transparent 1px 6px);
+  mask-image: linear-gradient(to bottom, #000 40%, transparent 41%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 41%);
+}
+.dial-scale i { position: absolute; left: 35%; top: -2px; width: 1px; height: 12px; background: #c9553a; }
+.dial-text { font-size: .66rem; letter-spacing: .06em; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.radio-btn {
+  flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(217,178,92,.9); color: #2a1d11; border: 0; cursor: pointer; transition: transform .2s ease, opacity .2s ease;
+}
+.radio-btn:hover:not(:disabled) { transform: scale(1.08); }
+.radio-btn:disabled { opacity: .4; cursor: not-allowed; }
+.spotify-panel { width: min(300px, calc(100vw - 2 * var(--pad))); }
+.spotify-panel[hidden] { display: none; }
+.spotify-panel iframe { width: 100%; border: 0; border-radius: 12px; }
+
+/* ---------- Small screens ---------- */
+@media (max-width: 640px) {
+  .text[data-pos="low"] { bottom: calc(124px + env(safe-area-inset-bottom, 0px)); }
+  .text[data-pos="top"] { top: calc(64px + env(safe-area-inset-top, 0px)); }
+  .title { font-size: clamp(2.6rem, 15vw, 4.6rem); }
+  .radio { width: 132px; padding: 6px 8px; gap: 7px; }
+  .grille { width: 24px; height: 24px; }
+  .radio-btn { width: 26px; height: 26px; }
+  .marker { width: 34px; }
+  .timeline ol::before { left: 17px; right: 17px; }
+  .tick { display: none; }                       /* labels only for the selected moment on phones */
+  .marker.is-active .tick { display: block; }
+  .timeline { padding-bottom: 14px; }
+}
+@media (max-width: 360px) { .radio { width: 112px; } .dial-text { display: none; } .marker { width: 30px; } }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  :root { --fade: 1ms; }
+  .grain { animation: none; }
+  .text, .dot, .tick, .radio-btn { transition: none; }
+}
+
+.noscript { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 5; font-family: var(--serif); }

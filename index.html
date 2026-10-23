@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Yaadein</title>
+  <meta name="description" content="A quiet, time-of-day journey through everyday Indian childhood memories.">
+  <meta name="theme-color" content="#1a130d">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Background stage: two stacked layers that crossfade -->
+  <div class="stage" id="stage" aria-hidden="true">
+    <div class="bg" id="bg-a"></div>
+    <div class="bg" id="bg-b"></div>
+    <div class="shade"></div>
+    <div class="grade"></div>
+    <div class="grain"></div>
+  </div>
+
+  <!-- Floating interface (never moves during transitions) -->
+  <main class="ui">
+    <div class="clock" role="timer" aria-label="Your local time">
+      <time id="clock-time">--:--:--</time>
+    </div>
+
+    <div class="text" id="text" aria-live="polite">
+      <h1 class="title" id="title"></h1>
+      <p class="caption" id="caption"></p>
+    </div>
+
+    <section class="radio-wrap" aria-label="Music player">
+      <div class="spotify-panel" id="spotify-panel" hidden></div>
+      <div class="radio" id="radio">
+        <span class="grille" aria-hidden="true"></span>
+        <span class="dial">
+          <span class="dial-scale" aria-hidden="true"><i id="needle"></i></span>
+          <span class="dial-text" id="radio-status">Tune in soon</span>
+        </span>
+        <button class="radio-btn" id="radio-btn" type="button" aria-label="Play music" aria-expanded="false" disabled>
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <nav class="timeline" aria-label="Choose a moment of the day">
+      <ol id="timeline"></ol>
+      <button class="now-btn" id="now-btn" type="button" hidden>back to now</button>
+      <div class="timeline-credits">
+        <p>Inspired by Yash Bhardwaj's <a href="https://saloon.wtf">saloon.wtf</a></p>
+        <p>Built with <span class="credit-heart" aria-hidden="true">♥ </span> by <a href="https://github.com/garvjain7" aria-label="Garv Jain">Garv Jain</a></p>
+      </div>
+    </nav>
+  </main>
+
+  <noscript><p class="noscript">This page needs JavaScript to show its scenes.</p></noscript>
+
+  <script src="js/scenes.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
