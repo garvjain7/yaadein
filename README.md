@@ -9,7 +9,7 @@ nostalgia-website/
 ├── css/style.css
 ├── js/scenes.js      <- ALL content: times, images, captions, focal points, Spotify link
 ├── js/app.js         <- behaviour only
-├── assets/images/    <- your five images (already placed)
+├── assets/images/    <- optimized WebP scene images
 └── assets/audio/
 ```
 
@@ -18,11 +18,11 @@ Already copied in and mapped (time order):
 
 | Time | File | Caption |
 |---|---|---|
-| 2:00 PM | `scene-nes-brick-game.jpg` | suggested, replace freely |
-| 5:00 PM | `scene-street-game.jpg` | "The game ended only when someone finally called your name." |
-| 6:30 PM | `scene-rooftop-antenna.jpg` | "Ab aaya? ..." |
-| 8:30 PM | `scene-kirana-chai.jpg` | "Where the chai never stopped boiling..." |
-| 11:00 PM | `scene-night-study.png` | "Homework on the table..." |
+| 2:00 PM | `scene-nes-brick-game.webp` | suggested, replace freely |
+| 5:00 PM | `scene-street-game.webp` | "The game ended only when someone finally called your name." |
+| 6:30 PM | `scene-rooftop-antenna.webp` | "Ab aaya? ..." |
+| 8:30 PM | `scene-night-study.webp` | "Homework on the table..." |
+| 11:00 PM | `scene-kirana-chai.webp` | "Where the chai never stopped boiling..." |
 
 To rename or swap a file: put it in `assets/images/` and edit its `image:` path in `js/scenes.js`.
 To change a time: edit `time:` ("HH:MM", 24h). The timeline re-sorts itself.
@@ -51,6 +51,6 @@ to a real `https://open.spotify.com/...` link. Then the button loads Spotify's o
 on click (never autoplays). That embed path is written but UNTESTED with a real link, so test it with yours.
 
 ## Known image issues (fix the files, not the code)
-- `scene-night-study.png` has a music-player overlay ("Dil Se Re") baked in. Retouch it out.
+- `scene-night-study.webp` has a music-player overlay ("Dil Se Re") baked in. Retouch it out.
 - Small Gemini sparkle marks in the bottom-right of some images; the timeline sits there. Retouch them out.
 - Most images are about 1024px wide and will look soft on large screens. Upscale if possible.

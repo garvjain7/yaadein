@@ -11,7 +11,7 @@ window.NOSTALGIA_CONFIG = {
 
   /* Each scene:
        time        "HH:MM" (24h). The scene closest to the visitor's clock opens first.
-       image       path to the image. mobileImage: optional separate portrait image (or null)
+       image       path to the WebP image. mobileImage: optional separate portrait image (or null)
        focus       which part stays visible when cropped (CSS background-position);
                    focusMobile is used on portrait screens (0% = left edge, 100% = right edge)
        title       the big heading (Devanagari looks best). "" hides it
@@ -25,7 +25,7 @@ window.NOSTALGIA_CONFIG = {
   scenes: [
     {
       id: "afternoon-game", label: "Afternoon video game", time: "14:00",
-      image: "assets/images/scene-nes-brick-game.png", mobileImage: null,
+      image: "assets/images/scene-nes-brick-game.webp", mobileImage: null,
       focus: "50% 50%", focusMobile: "58% 50%",
       title: "एक और लाइफ",
       // SUGGESTED caption for this image. Replace with your own whenever you like.
@@ -35,7 +35,7 @@ window.NOSTALGIA_CONFIG = {
     },
     {
       id: "street-game", label: "Street games", time: "17:00",
-      image: "assets/images/scene-street-game.png", mobileImage: null,
+      image: "assets/images/scene-street-game.webp", mobileImage: null,
       focus: "50% 50%", focusMobile: "48% 50%",
       title: "गली का खेल",
       caption: "The game ended only when someone finally called your name.",
@@ -44,7 +44,7 @@ window.NOSTALGIA_CONFIG = {
     },
     {
       id: "rooftop-antenna", label: "Rooftop antenna", time: "18:30",
-      image: "assets/images/scene-rooftop-antenna.png", mobileImage: null,
+      image: "assets/images/scene-rooftop-antenna.webp", mobileImage: null,
       focus: "55% 0%", focusMobile: "60% 0%",   // 0% = keep the top (antenna) in view on wide windows
       title: "थोड़ा और बाएँ",
       caption: "Ab aaya? The whole family waited for one clear picture.",
@@ -53,7 +53,7 @@ window.NOSTALGIA_CONFIG = {
     },
     {
       id: "night-study", label: "Late-night study", time: "20:30",
-      image: "assets/images/scene-night-study.png", mobileImage: null,
+      image: "assets/images/scene-night-study.webp", mobileImage: null,
       focus: "45% 50%", focusMobile: "45% 50%",
       title: "रात की पढ़ाई",
       caption: "Homework on the table, earphones in your ears, and one favourite song on repeat.",
@@ -62,7 +62,7 @@ window.NOSTALGIA_CONFIG = {
     },
     {
       id: "kirana-chai", label: "Kirana and chai tapri", time: "23:00",
-      image: "assets/images/scene-kirana-chai.png", mobileImage: null,
+      image: "assets/images/scene-kirana-chai.webp", mobileImage: null,
       focus: "50% 0%", focusMobile: "74% 0%",   // chai tapri side; use 22% for the kirana side
       title: "नुक्कड़",
       caption: "Where the chai never stopped boiling, and the uncles always had time for one more conversation.",

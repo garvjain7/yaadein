@@ -232,11 +232,6 @@
   var now = new Date();
   showScene(nearestIndex(now.getHours() * 60 + now.getMinutes()), { instant: true });
 
-  // Warm the cache for the other scenes so later switches are instant
-  window.addEventListener('load', function () {
-    scenes.forEach(function (s) { preload(sourceFor(s)); });
-  });
-
   // Re-crop when the device rotates / crosses portrait <-> landscape
   var onOrient = function () { if (current !== -1) showScene(current, { instant: true }); };
   if (portrait.addEventListener) portrait.addEventListener('change', onOrient);
