@@ -18,10 +18,17 @@
   var captionEl = $('caption');
   var nowBtn = $('now-btn');
   var clockEl = $('clock-time');
+  var presenceCountEl = $('presence-count');
   var timelineEl = $('timeline');
   var radioBtn = $('radio-btn');
+  var radioTitle = $('radio-title');
   var radioStatus = $('radio-status');
+  var radioHint = $('radio-hint');
+  var radio = $('radio');
   var spotifyPanel = $('spotify-panel');
+  var fullscreenBtn = $('fullscreen-btn');
+  var fullscreenLabel = $('fullscreen-label');
+  var fullscreenStatus = $('fullscreen-status');
 
   var portrait = window.matchMedia('(orientation: portrait)');
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -190,6 +197,15 @@
     updateNowBtn();
   }
 
+  /* ---------- Ambient activity counter ---------- */
+  function updatePresenceCount() {
+    var previous = parseInt(presenceCountEl.textContent, 10);
+    var next = 20 + Math.floor(Math.random() * 16);
+    if (next === previous) next = 20 + ((previous - 19) % 16);
+    presenceCountEl.textContent = String(next);
+    window.setTimeout(updatePresenceCount, 1000 + Math.random() * 9000);
+  }
+
   /* ---------- Music player: visual shell + optional Spotify embed ---------- */
   function embedUrl(url) {
     if (!/^https:\/\/open\.spotify\.com\//.test(url)) return null;
@@ -199,11 +215,16 @@
   function initPlayer() {
     var src = cfg.spotifyUrl ? embedUrl(cfg.spotifyUrl) : null;
     if (!src) {
-      radioStatus.textContent = 'Tune in soon';
-      radioBtn.title = 'Add a Spotify link in js/scenes.js to enable';
+      if (cfg.spotifyUrl) {
+        console.warn('Invalid Spotify link in NOSTALGIA_CONFIG.spotifyUrl. Use a link from open.spotify.com.');
+      }
       return;
     }
-    radioStatus.textContent = 'Spotify';
+    radio.classList.add('is-ready');
+    radioTitle.textContent = 'A little soundtrack for the day';
+    radioStatus.textContent = 'Your soundtrack, hosted on Spotify';
+    radioHint.textContent = 'Tap to open the player';
+    radioBtn.hidden = false;
     radioBtn.disabled = false;
     radioBtn.title = '';
     radioBtn.addEventListener('click', function () {
@@ -215,18 +236,46 @@
         f.height = '152';
         f.loading = 'lazy';
         f.allow = 'encrypted-media';
+        f.allowFullscreen = true;
         spotifyPanel.appendChild(f);
       }
       spotifyPanel.hidden = !open;
+      radio.classList.toggle('is-open', open);
+      document.body.classList.toggle('player-open', open);
       radioBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      radioBtn.setAttribute('aria-label', open ? 'Hide music player' : 'Show music player');
+      radioBtn.setAttribute('aria-label', open ? 'Close Spotify player' : 'Open Spotify player');
     });
+  }
+
+  /* ---------- Fullscreen ---------- */
+  function syncFullscreenControl() {
+    var active = !!document.fullscreenElement;
+    fullscreenLabel.textContent = active ? 'Exit fullscreen' : 'Enter fullscreen';
+    fullscreenBtn.setAttribute('aria-label', active ? 'Exit fullscreen' : 'Enter fullscreen');
+  }
+  if (!document.documentElement.requestFullscreen || !document.exitFullscreen) {
+    fullscreenBtn.disabled = true;
+    fullscreenBtn.title = 'Fullscreen is not supported by this browser';
+  } else {
+    fullscreenBtn.addEventListener('click', function () {
+      var action = document.fullscreenElement
+        ? document.exitFullscreen()
+        : document.documentElement.requestFullscreen();
+      action.then(function () {
+        fullscreenStatus.textContent = '';
+      }).catch(function (error) {
+        console.error('Could not change fullscreen mode:', error);
+        fullscreenStatus.textContent = 'Fullscreen could not be enabled. Your browser may block it on this page.';
+      });
+    });
+    document.addEventListener('fullscreenchange', syncFullscreenControl);
   }
 
   /* ---------- Start ---------- */
   buildTimeline();
   tickClock();
   setInterval(tickClock, 1000);
+  updatePresenceCount();
   initPlayer();
 
   var now = new Date();
