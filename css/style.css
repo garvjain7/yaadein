@@ -132,6 +132,20 @@ body {
   text-shadow: 0 1px 3px rgba(0,0,0,.85), 0 2px 18px rgba(0,0,0,.7);
 }
 .title[hidden], .caption[hidden] { display: none; }
+.text { isolation: isolate; }
+.text::before {   /* soft dark halo so words stay readable over busy areas */
+  content: ""; position: absolute; inset: -18% -8%; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(14,8,3,.5) 0, rgba(14,8,3,0) 68%);
+}
+@media (min-width: 641px) and (orientation: landscape) {   /* per-scene placement from scenes.js textBox */
+  .text[data-box="1"] {
+    left: var(--t-left, auto); right: var(--t-right, auto);
+    top: var(--t-top, auto); bottom: var(--t-bottom, auto);
+    width: var(--t-width, auto); padding: 0;
+  }
+  .text[data-box="1"] .title { font-size: calc(clamp(2.9rem, 9.5vw, 8.5rem) * var(--t-scale, 1)); max-width: none; }
+  .text[data-box="1"] .caption { max-width: var(--t-capw, 36rem); }
+}
 
 /* Timeline (bottom right) */
 .timeline {

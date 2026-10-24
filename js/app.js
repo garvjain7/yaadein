@@ -132,8 +132,15 @@
       captionEl.textContent = scene.caption || '';
       titleEl.hidden = !scene.title;
       captionEl.hidden = !scene.caption;
+      // Per-scene text position (laptops/desktops): scenes.js textBox -> CSS variables
+      var box = scene.textBox || null;
+      ['top', 'bottom', 'left', 'right', 'width', 'scale', 'capw'].forEach(function (k) {
+        if (box && box[k] != null) textEl.style.setProperty('--t-' + k, box[k]);
+        else textEl.style.removeProperty('--t-' + k);
+      });
+      textEl.dataset.box = box ? '1' : '0';
       textEl.dataset.pos = scene.textPos || 'top';
-      textEl.dataset.align = scene.textAlign || 'center';
+      textEl.dataset.align = (box && box.align) || scene.textAlign || 'center';
       textEl.classList.remove('is-changing');
     }, reduceMotion.matches ? 0 : 250);
   }
