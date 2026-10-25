@@ -5,9 +5,166 @@
 window.NOSTALGIA_CONFIG = {
   transitionMs: 900,          // crossfade duration (keep in sync with --fade in CSS)
 
-  /* Paste a Spotify track/playlist/album link, e.g. "https://open.spotify.com/playlist/XXXX".
-     Empty = the radio is a visual shell only and its button stays disabled. */
-  spotifyUrl: "https://open.spotify.com/playlist/6p1LFUW0D9q8b7VdwHY3is",
+  /* Playlist metadata. Add a YouTube link or 11-character video ID to enable playback.
+     Some YouTube videos block embedding; use an official upload when possible. */
+  tracks: [
+    {
+      youtube: "",
+      title: "Pal Pal Dil Ke Paas - From \"Blackmail\"",
+      artist: "Kishore Kumar",
+      duration: "5:28"
+    },
+    {
+      youtube: "",
+      title: "Chura Liya Hai Tumne Jo Dil Ko",
+      artist: "Asha Bhosle, Mohammed Rafi, R. D. Burman",
+      duration: "4:47"
+    },
+    {
+      youtube: "",
+      title: "O Mere Dil Ke Chain",
+      artist: "Kishore Kumar, R. D. Burman",
+      duration: "4:36"
+    },
+    {
+      youtube: "",
+      title: "Itna Na Mujhse Tu Pyar Badha",
+      artist: "Talat Mahmood, Lata Mangeshkar, Salil Chowdhury",
+      duration: "3:55"
+    },
+    {
+      youtube: "",
+      title: "Yeh Raaten Yeh Mausam",
+      artist: "Kishore Kumar, Asha Bhosle",
+      duration: "3:21"
+    },
+    {
+      youtube: "",
+      title: "Dekha Ek Khwab",
+      artist: "Lata Mangeshkar, Kishore Kumar",
+      duration: "5:20"
+    },
+    {
+      youtube: "",
+      title: "Mere Samnewali Khidki Mein",
+      artist: "Kishore Kumar, R. D. Burman",
+      duration: "2:52"
+    },
+    {
+      youtube: "",
+      title: "Chand Sifarish",
+      artist: "Jatin-Lalit, Shaan, Kailash Kher, Prasoon Joshi",
+      duration: "4:35"
+    },
+    {
+      youtube: "",
+      title: "Uden Jab Jab Zulfen Teri",
+      artist: "Mohammed Rafi, Asha Bhosle",
+      duration: "4:55"
+    },
+    {
+      youtube: "",
+      title: "Abhi Na Jao Chhod Kar",
+      artist: "Asha Bhosle, Mohammed Rafi",
+      duration: "4:15"
+    },
+    {
+      youtube: "",
+      title: "Mere Bhole Balam",
+      artist: "Kishore Kumar, R. D. Burman",
+      duration: "3:14"
+    },
+    {
+      youtube: "",
+      title: "Lag Ja Gale Se Phir",
+      artist: "Lata Mangeshkar",
+      duration: "4:17"
+    },
+    {
+      youtube: "",
+      title: "Hungamaa Ho Gaya",
+      artist: "Asha Bhosle, Arijit Singh, Amit Trivedi, Laxmikant–Pyarelal",
+      duration: "4:31"
+    },
+    {
+      youtube: "",
+      title: "Intaha Ho Gai Intezar Ki",
+      artist: "Kishore Kumar, Asha Bhosle",
+      duration: "8:49"
+    },
+    {
+      youtube: "",
+      title: "Ek Ajnabee Haseena Se",
+      artist: "Kishore Kumar, R. D. Burman",
+      duration: "4:26"
+    },
+    {
+      youtube: "",
+      title: "Mere Sapnon Ki Rani",
+      artist: "Kishore Kumar, S. D. Burman",
+      duration: "5:00"
+    },
+    {
+      youtube: "",
+      title: "Dil Se Re",
+      artist: "A.R. Rahman, Anuradha, Chandralekha Annupamaa",
+      duration: "6:45"
+    },
+    {
+      youtube: "",
+      title: "Kun Faya Kun",
+      artist: "A.R. Rahman, Javed Ali, Mohit Chauhan",
+      duration: "7:50"
+    },
+    {
+      youtube: "",
+      title: "Kya Hua Tera Vada",
+      artist: "Sushma Shrestha, Mohammed Rafi, R. D. Burman",
+      duration: "4:17"
+    },
+    {
+      youtube: "",
+      title: "Dhal Gaya Din Ho Gayi Sham",
+      artist: "Asha Bhosle, Mohammed Rafi, Laxmikant–Pyarelal",
+      duration: "4:53"
+    },
+    {
+      youtube: "",
+      title: "Yeh Sham Mastani",
+      artist: "Kishore Kumar, R. D. Burman",
+      duration: "4:36"
+    },
+    {
+      youtube: "",
+      title: "Halka Halka",
+      artist: "Rahat Fateh Ali Khan, Rashmi Virag, Abhijit Vaghani",
+      duration: "4:33"
+    },
+    {
+      youtube: "",
+      title: "Chaar Kadam",
+      artist: "Shaan, Shreya Ghoshal, Shantanu Moitra, Swanand Kirkire",
+      duration: "4:02"
+    },
+    {
+      youtube: "",
+      title: "Aashiyan",
+      artist: "Pritam, Shreya Ghoshal, Nikhil Paul George",
+      duration: "3:56"
+    },
+    {
+      youtube: "",
+      title: "Pehla Nasha",
+      artist: "Udit Narayan, Sadhana Sargam",
+      duration: "4:51"
+    },
+    {
+      youtube: "",
+      title: "O Sanam",
+      artist: "Lucky Ali",
+      duration: "3:43"
+    }
+  ],
 
   /* Each scene:
        time        "HH:MM" (24h). The scene closest to the visitor's clock opens first.

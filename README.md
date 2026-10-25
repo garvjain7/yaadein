@@ -1,56 +1,39 @@
-# Yaadein: nostalgic Indian-life website
+# यादें · Yaadein
 
-Plain HTML, CSS and vanilla JavaScript. No build step, no backend.
+### A little place to return to the evenings that felt endless.
 
-## Folder
-```
-nostalgia-website/
-├── index.html
-├── css/style.css
-├── js/scenes.js      <- ALL content: times, images, captions, focal points, Spotify link
-├── js/app.js         <- behaviour only
-├── assets/images/    <- optimized WebP scene images
-└── assets/audio/
-```
+[Visit Yaadein](https://yaaadein.vercel.app)
 
-## Your images
-Already copied in and mapped (time order):
+The last round before dinner. A rooftop antenna turned just so. Homework waiting under the
+warm light, while a favourite song played one more time.
 
-| Time | File | Caption |
-|---|---|---|
-| 2:00 PM | `scene-nes-brick-game.webp` | suggested, replace freely |
-| 5:00 PM | `scene-street-game.webp` | "The game ended only when someone finally called your name." |
-| 6:30 PM | `scene-rooftop-antenna.webp` | "Ab aaya? ..." |
-| 8:30 PM | `scene-night-study.webp` | "Homework on the table..." |
-| 11:00 PM | `scene-kirana-chai.webp` | "Where the chai never stopped boiling..." |
+**Yaadein** is a quiet, time-of-day journey through the small scenes of growing up in India.
+No rush, no destination—just a familiar street, a little music, and a moment to remember.
 
-To rename or swap a file: put it in `assets/images/` and edit its `image:` path in `js/scenes.js`.
-To change a time: edit `time:` ("HH:MM", 24h). The timeline re-sorts itself.
+> *The game ended only when someone finally called your name.*
 
-## Titles, text position and fonts
-Each scene has a big `title`, a `caption`, `textPos` ("top"/"mid"/"low") and `textAlign`. Place the text over the calmest
-part of the image. Titles use the Google font "Yatra One" (needs internet); offline it falls back to a system Devanagari font.
-To self-host, download the font into `assets/` and add an `@font-face` in `css/style.css`.
-A "back to now" button appears under the timeline whenever you are not on the scene that matches your clock.
+## Wander through the day
 
-## Run
-Double-clicking `index.html` works (no modules or fetch are used). A local server is still the safest:
-```
-cd nostalgia-website
-python3 -m http.server 8000     # then open http://localhost:8000
-```
+The scene follows your local time, from an afternoon game to the neighbourhood chai tapri at
+night. Let the photographs drift by, or choose another moment on the timeline. Find your own
+hour, settle in, and stay as long as you like.
 
-## Phones (portrait crop)
-A landscape image can't fill a portrait screen without cropping. Each scene has `focusMobile`
-("x% y%") deciding which slice stays visible; 0% = left edge, 100% = right edge.
-For the best result later, add a real 9:16 image via `mobileImage: "assets/images/xyz-portrait.jpg"`.
+## Make it feel like home
 
-## Spotify
-The radio is a visual shell. The button is disabled until you set `spotifyUrl` in `js/scenes.js`
-to a real `https://open.spotify.com/...` link. Then the button loads Spotify's official embed
-on click (never autoplays). That embed path is written but UNTESTED with a real link, so test it with yours.
+The memories live in [`js/scenes.js`](js/scenes.js). Change a scene's words, image, or time;
+the day will find its own rhythm. The background photographs are in `assets/images/`.
 
-## Known image issues (fix the files, not the code)
-- `scene-night-study.webp` has a music-player overlay ("Dil Se Re") baked in. Retouch it out.
-- Small Gemini sparkle marks in the bottom-right of some images; the timeline sits there. Retouch them out.
-- Most images are about 1024px wide and will look soft on large screens. Upscale if possible.
+There is a small glass music player, too. Its song list is ready to search, with titles and
+artists included. To make a song playable, add its YouTube video link to that song's `youtube`
+field in `js/scenes.js`. Playback needs an internet connection, and some videos may not allow
+embedding.
+
+## Run locally
+
+The live site is hosted at [yaaadein.vercel.app](https://yaaadein.vercel.app). To explore or
+customize the project locally, open it in VS Code and choose **Open with Live Server** on
+`index.html` (usually `http://127.0.0.1:5500`). There is no build step or backend.
+
+---
+
+*Made for the memories that still feel close.*
