@@ -13,6 +13,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var stage = $('stage');
   var layers = [$('bg-a'), $('bg-b')];
+  var openingScreen = $('opening-screen');
   var rotateHint = $('rotate-hint');
   var textEl = $('text');
   var titleEl = $('title');
@@ -21,6 +22,8 @@
   var clockEl = $('clock-time');
   var presenceCountEl = $('presence-count');
   var timelineEl = $('timeline');
+  var timelineCue = $('timeline-cue');
+  var tourSkipBtn = $('tour-skip');
   var radioTitle = $('radio-title');
   var radioStatus = $('radio-status');
   var radio = $('radio');
@@ -33,6 +36,7 @@
   var repeatBtn = $('repeat-btn');
   var listBtn = $('list-btn');
   var playlistClose = $('playlist-close');
+  var playlistSummary = $('playlist-summary');
   var seek = $('seek');
   var timeNow = $('time-now');
   var timeTotal = $('time-total');
@@ -141,6 +145,7 @@
     textTimer = setTimeout(function () {
       titleEl.textContent = scene.title || '';
       captionEl.textContent = scene.caption || '';
+      textEl.dataset.scene = scene.id;
       titleEl.hidden = !scene.title;
       captionEl.hidden = !scene.caption;
       // Per-scene text position (laptops/desktops): scenes.js textBox -> CSS variables
@@ -169,7 +174,10 @@
       btn.innerHTML = '<span class="dot"></span><span class="tick"></span>';
       btn.querySelector('.tick').textContent = formatTick(scene.minutes);
       btn.title = scene.label;
-      btn.addEventListener('click', function () { showScene(i); });
+      btn.addEventListener('click', function () {
+        stopTourForInteraction();
+        showScene(i);
+      });
       li.appendChild(btn);
       timelineEl.appendChild(li);
       markers.push(btn);
@@ -187,6 +195,70 @@
   }
 
   var selected = -1;
+  var tourActive = false;
+  var tourTimer = null;
+  var tourReturnIndex = -1;
+  var tourSequence = [];
+  var tourPosition = 0;
+
+  function markTourSeen() {
+    try {
+      window.localStorage.setItem('yaadein-guided-tour-seen', 'true');
+    } catch (error) {
+      console.warn('Could not save the guided tour preference:', error);
+    }
+  }
+
+  function showRotateHint() {
+    if (!portrait.matches || window.innerWidth > 1100) return;
+    rotateHint.classList.add('is-visible');
+    setTimeout(function () { rotateHint.classList.remove('is-visible'); }, 2200);
+  }
+
+  function finishTour(restoreStart) {
+    if (!tourActive) return;
+    tourActive = false;
+    window.clearTimeout(tourTimer);
+    timelineCue.hidden = true;
+    document.querySelector('.ui').classList.remove('is-guided-tour');
+    timelineEl.parentNode.classList.remove('is-guiding');
+    markTourSeen();
+    updateNowBtn();
+    if (restoreStart && selected !== tourReturnIndex) showScene(tourReturnIndex);
+  }
+
+  function advanceTour() {
+    if (!tourActive) return;
+    if (tourPosition >= tourSequence.length) {
+      finishTour(false);
+      showRotateHint();
+      return;
+    }
+    var nextIndex = tourSequence[tourPosition++];
+    showScene(nextIndex).then(function () {
+      if (tourActive) tourTimer = window.setTimeout(advanceTour, 4000);
+    });
+  }
+
+  function startTour(startIndex) {
+    tourActive = true;
+    tourReturnIndex = startIndex;
+    tourSequence = [];
+    for (var i = 1; i < scenes.length; i++) {
+      tourSequence.push((startIndex + i) % scenes.length);
+    }
+    tourSequence.push(startIndex);
+    tourPosition = 0;
+    document.querySelector('.ui').classList.add('is-guided-tour');
+    timelineCue.hidden = false;
+    timelineEl.parentNode.classList.add('is-guiding');
+    tourTimer = window.setTimeout(advanceTour, 4000);
+  }
+
+  function stopTourForInteraction() {
+    if (tourActive) finishTour(false);
+  }
+
   function updateUI(index) {
     selected = index;
     markers.forEach(function (m, i) {
@@ -204,8 +276,16 @@
     var d = new Date();
     return nearestIndex(d.getHours() * 60 + d.getMinutes());
   }
-  function updateNowBtn() { nowBtn.hidden = selected === currentNearest(); }
-  nowBtn.addEventListener('click', function () { showScene(currentNearest()); });
+  function updateNowBtn() { nowBtn.hidden = tourActive || selected === currentNearest(); }
+  nowBtn.addEventListener('click', function () {
+    stopTourForInteraction();
+    showScene(currentNearest());
+  });
+  tourSkipBtn.addEventListener('click', stopTourForInteraction);
+  document.addEventListener('pointerdown', stopTourForInteraction);
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter' || event.key === ' ') stopTourForInteraction();
+  });
 
   /* ---------- Live clock (independent of the selected scene) ---------- */
   function tickClock() {
@@ -415,6 +495,11 @@
   }
 
   function initPlayer() {
+    var songCount = tracks.length;
+    var missingLinks = tracks.some(function (track) { return !track.id; });
+    playlistSummary.textContent = songCount + (songCount === 1 ? ' song' : ' songs')
+      + (missingLinks ? ' · YouTube links needed to play' : '');
+
     tracks.forEach(function (t, i) {
       var li = document.createElement('li');
       var b = document.createElement('button');
@@ -501,19 +586,39 @@
   }
 
   /* ---------- Start ---------- */
-  if (portrait.matches && window.innerWidth <= 1100) {
-    rotateHint.classList.add('is-visible');
-    setTimeout(function () { rotateHint.classList.remove('is-visible'); }, 2200);
-  }
-
   buildTimeline();
   tickClock();
   setInterval(tickClock, 1000);
   updatePresenceCount();
   initPlayer();
 
+  var hasSeenTour = false;
+  try {
+    hasSeenTour = window.localStorage.getItem('yaadein-guided-tour-seen') === 'true';
+  } catch (error) {
+    console.warn('Could not read the guided tour preference:', error);
+  }
+
   var now = new Date();
-  showScene(nearestIndex(now.getHours() * 60 + now.getMinutes()), { instant: true });
+  var initialScene = showScene(nearestIndex(now.getHours() * 60 + now.getMinutes()), { instant: true });
+  var openingAnimation = new Promise(function (resolve) {
+    setTimeout(resolve, reduceMotion.matches ? 0 : 3000);
+  });
+  var sceneTimeout;
+  var initialSceneReady = Promise.race([
+    initialScene,
+    new Promise(function (resolve) { sceneTimeout = setTimeout(resolve, 5500); })
+  ]).then(function () {
+    clearTimeout(sceneTimeout);
+  });
+  Promise.all([initialSceneReady, openingAnimation]).then(function () {
+    openingScreen.classList.add('is-leaving');
+    setTimeout(function () {
+      openingScreen.remove();
+      if (hasSeenTour) showRotateHint();
+      else startTour(selected);
+    }, 450);
+  });
 
   // Re-crop when the device rotates / crosses portrait <-> landscape
   var onOrient = function () { if (current !== -1) showScene(current, { instant: true }); };
