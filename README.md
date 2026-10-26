@@ -24,9 +24,11 @@ The memories live in [`js/scenes.js`](js/scenes.js). Change a scene's words, ima
 the day will find its own rhythm. The background photographs are in `assets/images/`.
 
 There is a small glass music player, too. Its song list is ready to search, with titles and
-artists included. To make a song playable, add its YouTube video link to that song's `youtube`
-field in `js/scenes.js`. Playback needs an internet connection, and some videos may not allow
-embedding.
+artists included. The tracks in `js/scenes.js` are linked to the songs in the
+[Yaadein YouTube playlist](https://www.youtube.com/playlist?list=PLZhlH8geJywY). To add or
+replace a song, update its `youtube` field with the video link or ID. Search, repeat, play/pause,
+next, and previous use this configured track list. Playback needs an internet connection, and
+some videos may not allow embedding.
 
 ## Run locally
 

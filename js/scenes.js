@@ -5,161 +5,162 @@
 window.NOSTALGIA_CONFIG = {
   transitionMs: 900,          // crossfade duration (keep in sync with --fade in CSS)
 
-  /* Playlist metadata. Add a YouTube link or 11-character video ID to enable playback.
+  /* Playlist metadata. These video IDs match the songs in
+     https://www.youtube.com/playlist?list=PLZhlH8geJywY.
      Some YouTube videos block embedding; use an official upload when possible. */
   tracks: [
     {
-      youtube: "",
+      youtube: "cvQWzlNIjt8",
       title: "Pal Pal Dil Ke Paas - From \"Blackmail\"",
       artist: "Kishore Kumar",
       duration: "5:28"
     },
     {
-      youtube: "",
+      youtube: "WF0HJv-9S_4",
       title: "Chura Liya Hai Tumne Jo Dil Ko",
       artist: "Asha Bhosle, Mohammed Rafi, R. D. Burman",
       duration: "4:47"
     },
     {
-      youtube: "",
+      youtube: "CrnRqE8hOIc",
       title: "O Mere Dil Ke Chain",
       artist: "Kishore Kumar, R. D. Burman",
       duration: "4:36"
     },
     {
-      youtube: "",
+      youtube: "pYnZy7Zv8gU",
       title: "Itna Na Mujhse Tu Pyar Badha",
       artist: "Talat Mahmood, Lata Mangeshkar, Salil Chowdhury",
       duration: "3:55"
     },
     {
-      youtube: "",
+      youtube: "BQJVOJUPJ30",
       title: "Yeh Raaten Yeh Mausam",
       artist: "Kishore Kumar, Asha Bhosle",
       duration: "3:21"
     },
     {
-      youtube: "",
+      youtube: "oPlHNekNTtI",
       title: "Dekha Ek Khwab",
       artist: "Lata Mangeshkar, Kishore Kumar",
       duration: "5:20"
     },
     {
-      youtube: "",
+      youtube: "6RchbVJpJRI",
       title: "Mere Samnewali Khidki Mein",
       artist: "Kishore Kumar, R. D. Burman",
       duration: "2:52"
     },
     {
-      youtube: "",
+      youtube: "ZaURV4XxdPI",
       title: "Chand Sifarish",
       artist: "Jatin-Lalit, Shaan, Kailash Kher, Prasoon Joshi",
       duration: "4:35"
     },
     {
-      youtube: "",
+      youtube: "uRuanDoYuYk",
       title: "Uden Jab Jab Zulfen Teri",
       artist: "Mohammed Rafi, Asha Bhosle",
       duration: "4:55"
     },
     {
-      youtube: "",
+      youtube: "YHd3rYyP9Yk",
       title: "Abhi Na Jao Chhod Kar",
       artist: "Asha Bhosle, Mohammed Rafi",
       duration: "4:15"
     },
     {
-      youtube: "",
+      youtube: "ANWzkeqQdZk",
       title: "Mere Bhole Balam",
       artist: "Kishore Kumar, R. D. Burman",
       duration: "3:14"
     },
     {
-      youtube: "",
+      youtube: "gI7hyn18Xn8",
       title: "Lag Ja Gale Se Phir",
       artist: "Lata Mangeshkar",
       duration: "4:17"
     },
     {
-      youtube: "",
+      youtube: "mW3rc51kEUA",
       title: "Hungamaa Ho Gaya",
       artist: "Asha Bhosle, Arijit Singh, Amit Trivedi, Laxmikant–Pyarelal",
       duration: "4:31"
     },
     {
-      youtube: "",
+      youtube: "05RQcXKXm-g",
       title: "Intaha Ho Gai Intezar Ki",
       artist: "Kishore Kumar, Asha Bhosle",
       duration: "8:49"
     },
     {
-      youtube: "",
+      youtube: "EYE61OWUUm8",
       title: "Ek Ajnabee Haseena Se",
       artist: "Kishore Kumar, R. D. Burman",
       duration: "4:26"
     },
     {
-      youtube: "",
+      youtube: "RVeLrwoB_xw",
       title: "Mere Sapnon Ki Rani",
       artist: "Kishore Kumar, S. D. Burman",
       duration: "5:00"
     },
     {
-      youtube: "",
+      youtube: "LFEJ-RkWNhY",
       title: "Dil Se Re",
       artist: "A.R. Rahman, Anuradha, Chandralekha Annupamaa",
       duration: "6:45"
     },
     {
-      youtube: "",
+      youtube: "_fmA1RoHbzA",
       title: "Kun Faya Kun",
       artist: "A.R. Rahman, Javed Ali, Mohit Chauhan",
       duration: "7:50"
     },
     {
-      youtube: "",
+      youtube: "OnomKR46aP4",
       title: "Kya Hua Tera Vada",
       artist: "Sushma Shrestha, Mohammed Rafi, R. D. Burman",
       duration: "4:17"
     },
     {
-      youtube: "",
+      youtube: "luYbdWJdK94",
       title: "Dhal Gaya Din Ho Gayi Sham",
       artist: "Asha Bhosle, Mohammed Rafi, Laxmikant–Pyarelal",
       duration: "4:53"
     },
     {
-      youtube: "",
+      youtube: "JNtZj3NaUFw",
       title: "Yeh Sham Mastani",
       artist: "Kishore Kumar, R. D. Burman",
       duration: "4:36"
     },
     {
-      youtube: "",
+      youtube: "5j5SQ8Oj4Kk",
       title: "Halka Halka",
       artist: "Rahat Fateh Ali Khan, Rashmi Virag, Abhijit Vaghani",
       duration: "4:33"
     },
     {
-      youtube: "",
+      youtube: "Px4-yQRZu_U",
       title: "Chaar Kadam",
       artist: "Shaan, Shreya Ghoshal, Shantanu Moitra, Swanand Kirkire",
       duration: "4:02"
     },
     {
-      youtube: "",
+      youtube: "WxXbLnBq0n0",
       title: "Aashiyan",
       artist: "Pritam, Shreya Ghoshal, Nikhil Paul George",
       duration: "3:56"
     },
     {
-      youtube: "",
+      youtube: "1R8MGdgZDns",
       title: "Pehla Nasha",
       artist: "Udit Narayan, Sadhana Sargam",
       duration: "4:51"
     },
     {
-      youtube: "",
+      youtube: "wR3r0NX1PJE",
       title: "O Sanam",
       artist: "Lucky Ali",
       duration: "3:43"
