@@ -114,9 +114,16 @@
 
   function showScene(index, opts) {
     var instant = !!(opts && opts.instant);
+    var showFallbackImmediately = !!(opts && opts.showFallbackImmediately);
     var scene = scenes[index];
     var my = ++token;
     updateUI(index);
+
+    if (showFallbackImmediately) {
+      paint(layers[activeLayer], scene, false);
+      settle();
+      current = index;
+    }
 
     return preload(sourceFor(scene)).then(function (ok) {
       if (my !== token) return;                       // a newer choice replaced this one
@@ -201,14 +208,6 @@
   var tourSequence = [];
   var tourPosition = 0;
 
-  function markTourSeen() {
-    try {
-      window.localStorage.setItem('yaadein-guided-tour-seen', 'true');
-    } catch (error) {
-      console.warn('Could not save the guided tour preference:', error);
-    }
-  }
-
   function showRotateHint() {
     if (!portrait.matches || window.innerWidth > 1100) return;
     rotateHint.classList.add('is-visible');
@@ -222,7 +221,6 @@
     timelineCue.hidden = true;
     document.querySelector('.ui').classList.remove('is-guided-tour');
     timelineEl.parentNode.classList.remove('is-guiding');
-    markTourSeen();
     updateNowBtn();
     if (restoreStart && selected !== tourReturnIndex) showScene(tourReturnIndex);
   }
@@ -592,15 +590,11 @@
   updatePresenceCount();
   initPlayer();
 
-  var hasSeenTour = false;
-  try {
-    hasSeenTour = window.localStorage.getItem('yaadein-guided-tour-seen') === 'true';
-  } catch (error) {
-    console.warn('Could not read the guided tour preference:', error);
-  }
-
   var now = new Date();
-  var initialScene = showScene(nearestIndex(now.getHours() * 60 + now.getMinutes()), { instant: true });
+  var initialScene = showScene(nearestIndex(now.getHours() * 60 + now.getMinutes()), {
+    instant: true,
+    showFallbackImmediately: true
+  });
   var openingAnimation = new Promise(function (resolve) {
     setTimeout(resolve, reduceMotion.matches ? 0 : 3000);
   });
@@ -615,8 +609,7 @@
     openingScreen.classList.add('is-leaving');
     setTimeout(function () {
       openingScreen.remove();
-      if (hasSeenTour) showRotateHint();
-      else startTour(selected);
+      startTour(selected);
     }, 450);
   });
 
